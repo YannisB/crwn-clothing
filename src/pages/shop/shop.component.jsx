@@ -6,7 +6,6 @@ class ShopPage extends React.Component {
     constructor(){
         super()
         this.state = {collections : SHOP_DATA}
-        console.log(this.state.collections)
     }
 
     render(){
