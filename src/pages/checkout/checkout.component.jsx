@@ -9,6 +9,7 @@ import { createStructuredSelector } from "reselect";
 
 
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import StripeCheckout	 from "../../components/stripe-button/stripeCheckoutButton.component";
 
 const Checkout = ({cartItems,total}) =>(
     <div className="checkout-page">
@@ -35,7 +36,8 @@ const Checkout = ({cartItems,total}) =>(
                 ))
             }
           
-        <div className="total">TOTAL : ${total}</div>
+        <div className="total">TOTAL : {total} &euro;</div>
+        <StripeCheckout price={total}>Pay now</StripeCheckout>
        
 
         
