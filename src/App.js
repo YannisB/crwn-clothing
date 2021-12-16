@@ -15,10 +15,11 @@ import { onSnapshot } from '@firebase/firestore';
 
 //Redux related import
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.actions';
 
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
+import { checkUserSession } from './redux/user/user.actions';
 
 
 
@@ -29,28 +30,30 @@ class App extends React.Component{
 
   componentDidMount(){
 
-    const {setCurrentUser} = this.props;
+    const {checkUserSession} = this.props
+    checkUserSession()
 
 
 
-    this.unsubscribeFromAuth= auth.onAuthStateChanged(async userAuth => {
-      if(userAuth){
-        const userRef = await createUserProfileDocument(userAuth)
-        onSnapshot(userRef, (snap)=> {
-          setCurrentUser({
-            id : snap.id,
-            ...snap.data()
-          })   
-        })
-        setCurrentUser(userAuth)
+    // this.unsubscribeFromAuth= auth.onAuthStateChanged(async userAuth => {
+    //   if(userAuth){
+    //     const userRef = await createUserProfileDocument(userAuth)
+    //     onSnapshot(userRef, (snap)=> {
+    //       setCurrentUser({
+    //         id : snap.id,
+    //         ...snap.data()
+    //       })   
+    //     })
+    //     setCurrentUser(userAuth)
         
-      }
+    //   }
       
-    });
+    // });
   }
 
   componentWillUnmount(){
-    this.unsubscribeFromAuth()
+    // this.unsubscribeFromAuth()
+   
   }
 
   
@@ -85,9 +88,8 @@ const mapStateToProps = createStructuredSelector(
   }
 )
 
-
 const mapDispatchToProps = dispatch =>({
-  setCurrentUser : user => dispatch(setCurrentUser(user))
+  checkUserSession : () => dispatch(checkUserSession())
 })
 
 
