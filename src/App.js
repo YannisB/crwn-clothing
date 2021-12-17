@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css';
 import { Switch,Route,Redirect } from 'react-router';
 
@@ -8,9 +8,6 @@ import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import Checkout from './pages/checkout/checkout.component';
 
-//Firebase import
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { onSnapshot } from '@firebase/firestore';
 
 
 //Redux related import
@@ -25,41 +22,13 @@ import { checkUserSession } from './redux/user/user.actions';
 
 
 
-class App extends React.Component{
-  unsubscribeFromAuth = null
+const App =({checkUserSession}) =>{
 
-  componentDidMount(){
-
-    const {checkUserSession} = this.props
+  useEffect( () =>{
     checkUserSession()
+  },[checkUserSession])
 
-
-
-    // this.unsubscribeFromAuth= auth.onAuthStateChanged(async userAuth => {
-    //   if(userAuth){
-    //     const userRef = await createUserProfileDocument(userAuth)
-    //     onSnapshot(userRef, (snap)=> {
-    //       setCurrentUser({
-    //         id : snap.id,
-    //         ...snap.data()
-    //       })   
-    //     })
-    //     setCurrentUser(userAuth)
-        
-    //   }
-      
-    // });
-  }
-
-  componentWillUnmount(){
-    // this.unsubscribeFromAuth()
-   
-  }
-
-  
-
-  render(){
-    return(
+  return(
       <div>
         <Header/>
         <Switch>
@@ -79,8 +48,7 @@ class App extends React.Component{
             <Route exact path="/checkout" component={Checkout}></Route>
         </Switch>
       </div>
-    )
-  }
+  )
 }
 
 const mapStateToProps = createStructuredSelector(
